@@ -7,7 +7,7 @@ import HorizontalScrollbar from './HorizontalScrollbar';
 const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
     const [search, setSearch] = useState('');
     const [bodyParts, setBodyParts] = useState([]);
-    // const [limit, setLimit] = useState(10);
+    const [limit, setLimit] = useState(50);
 
     useEffect(() => {
         const fetchExercisesData = async () => {
@@ -19,7 +19,6 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
         fetchExercisesData();
     }, []);
 
-    const [limit, setLimit] = useState(50);
     const handleLimit = () => {
         setLimit(limit + 50);
     }
@@ -49,7 +48,8 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
 
     useEffect(() => {
         if (search) handleSearch()
-    }, [limit]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [search, limit]);
 
     return (
         <Stack alignItems="center" mt="37px" justifyContent="center" p="20px">
@@ -57,7 +57,7 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
                 Awesome Exercises You <br /> Should Know
             </Typography>
             <Box position="relative" mb="72px">
-                <TextField sx={{ imput: { fontWeight: '700', border: 'none', borderRadius: '4px' }, width: { lg: '800px', xs: '350px' }, backgroundColor: '#fff', borderRadius: '40px' }}
+                <TextField sx={{ input: { fontWeight: '700', border: 'none', borderRadius: '4px' }, width: { lg: '800px', xs: '350px' }, backgroundColor: '#fff', borderRadius: '40px' }}
                     height="76px" value={search} onChange={(e) => setSearch(e.target.value.toLowerCase())} placeholder="Search Exercises" type="text"
                 />
                 <Button className="search-btn" sx={{ bgcolor: '#FF2625', color: '#fff', textTransform: 'none', width: { lg: '175px', xs: '80px' }, fontSize: { lg: '20px', xs: '14px' }, height: '56px', position: 'absolute', right: '0' }} onClick={handleSearch}>
@@ -67,6 +67,8 @@ const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
             <Box sx={{ position: 'relative', width: '100%', p: '20px' }}>
                 <HorizontalScrollbar data={bodyParts} setBodyPart={setBodyPart} bodyPart={bodyPart} />
             </Box>
+            <Button sx={{ mt: 2, bgcolor: '#FF2625', color: '#fff', textTransform: 'none', fontSize: { lg: '20px', xs: '14px' } }} onClick={handleLimit}>
+            </Button>
         </Stack>
     );
 };
